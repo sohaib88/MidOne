@@ -19,6 +19,13 @@ function HackReducer(state, action) {
         isLoading: false,
         isError: true,
       };
+      case 'remove':
+  return {
+    ...state,
+    data: state.data.filter(
+      story => action.payload.objectID !== story.objectID
+    ),
+  };
     default:
       throw new Error();
   }

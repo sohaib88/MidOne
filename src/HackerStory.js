@@ -68,7 +68,7 @@ function HackerStory () {
         onSearchSubmit={onSubmit}
 
       />
-    {stories.isLoading ? (<p>Loading ...</p>) : <List list={stories.data}/>}
+    {stories.isLoading ? (<p>Loading ...</p>) : <List list={stories.data} onRemoveItem={removeStory} />}
     </div>
   );
 };
@@ -109,6 +109,13 @@ const Label = ({
       inputRef.current.focus();
     }
   }, [isFocused]);
+
+  const removeStory = item => {
+    dispatchStories({
+      type: 'remove',
+      payload: item,
+    });
+  };
 
   return (
     <>
