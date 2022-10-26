@@ -1,25 +1,25 @@
-import React from "react";
 function HackReducer(state, action) {
-    switch (action.type) {
-      case 'initial':
-        return {
-          ...state,
-          isError: false,
-        };
-      case 'fetched':
-        return {
-          ...state,
-          isError: false,
-          data: action.payload,
-        };
-      case 'notfetched':
-        return {
-          ...state,
-          isError: true,
-        };
-      default:
-        throw new Error();
-    }
-  };
-
-export default HackReducer;
+  switch (action.type) {
+    case 'initial':
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      };
+    case 'fetched':
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        data: action.payload,
+      };
+    case 'notfetched':
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      };
+    default:
+      throw new Error();
+  }
+};

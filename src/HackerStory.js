@@ -9,8 +9,10 @@ function HackerStory () {
 
   const [stories, dispatch] = React.useReducer(
     HackReducer,
-    { data: [], isError: false }
+    { data: [], isLoading: false,isError: false }
   );
+
+
 
   const getStory = React.useCallback(async () => {
     dispatch({ type: 'initial' });
@@ -43,6 +45,7 @@ function HackerStory () {
       <SearchForm
         onSubmit={searchS}
       />
+    {stories.isLoading ? (<p>Loading ...</p>) : <List list={stories.data}/>}
     </div>
   );
 };
