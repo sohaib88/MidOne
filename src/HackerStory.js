@@ -2,9 +2,25 @@ import React from 'react';
 import HackReducer from './HackReducer';
 
 const api = 'https://hn.algolia.com/api/v1/search?query=hello&page=0';
+
+const PersistData = (key, initialState) => {
+  const [value, setValue] = React.useState(
+    localStorage.getItem(key) || initialState
+  );
+
+  React.useEffect(() => {
+    localStorage.setItem(key, value);
+  }, [value, key]);
+
+  return [value, setValue];
+};
+
 function HackerStory () {
-  const [url, setUrl] = React.useState(
-    `${api}`
+  const [search, setsearch] = PersistData(
+    ''
+   );
+   const [url, setUrl] = React.useState(
+    `${api}${search}`
   );
 
   const [stories, dispatch] = React.useReducer(
@@ -34,9 +50,13 @@ function HackerStory () {
   }, [getStory]);
  
   const searchS = event => {
-    setUrl(`${api}`);
-
+    setUrl(`${api}${search}`);
     event.preventDefault();
+  };
+
+  const searchInput = event => {
+    setUrl(`${api}${search}`);
+    setsearch(event.target.value);
   };
 
   return (
@@ -44,6 +64,9 @@ function HackerStory () {
       <h1>My Hacker Stories</h1>
       <SearchForm
         onSubmit={searchS}
+        onSearchInput={searchInput}
+        onSearchSubmit={onSubmit}
+
       />
     {stories.isLoading ? (<p>Loading ...</p>) : <List list={stories.data}/>}
     </div>
